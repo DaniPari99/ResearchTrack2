@@ -1,0 +1,73 @@
+\hypertarget{user__interface_8cpp}{}\doxysection{src/user\+\_\+interface.cpp File Reference}
+\label{user__interface_8cpp}\index{src/user\_interface.cpp@{src/user\_interface.cpp}}
+
+
+client for getting the choice from the user and sending it to the server  
+
+
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}geometry\+\_\+msgs/\+Twist.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}final\+\_\+assignment/\+User.\+h\char`\"{}}\newline
+Include dependency graph for user\+\_\+interface.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{user__interface_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{user__interface_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em main function \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{user__interface_8cpp_a17bcd065930a8a7f9f194078d9977268}\label{user__interface_8cpp_a17bcd065930a8a7f9f194078d9977268}} 
+ros\+::\+Service\+Client \mbox{\hyperlink{user__interface_8cpp_a17bcd065930a8a7f9f194078d9977268}{client}}
+\begin{DoxyCompactList}\small\item\em Global client for sending the modality chosen by the user. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{user__interface_8cpp_a63bd75f20c553f0d65d7bb29b3f35696}\label{user__interface_8cpp_a63bd75f20c553f0d65d7bb29b3f35696}} 
+int \mbox{\hyperlink{user__interface_8cpp_a63bd75f20c553f0d65d7bb29b3f35696}{choice}}
+\begin{DoxyCompactList}\small\item\em Global variable for storing the modality chosen by the user. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{user__interface_8cpp_a96abbefbbb89fd2964353364f61b0fcd}\label{user__interface_8cpp_a96abbefbbb89fd2964353364f61b0fcd}} 
+bool \mbox{\hyperlink{user__interface_8cpp_a96abbefbbb89fd2964353364f61b0fcd}{resp}}
+\begin{DoxyCompactList}\small\item\em Global variable for storing the feedback from the server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+client for getting the choice from the user and sending it to the server 
+
+\begin{DoxyAuthor}{Author}
+Parisi Daniele Martino 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27/02/2022
+\end{DoxyDate}
+services\+:~\newline
+ /user
+
+Description\+:
+
+The code implements the logic for getting the modality chosen by the user and sending it to the server 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{user__interface_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{user__interface_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{user\_interface.cpp@{user\_interface.cpp}!main@{main}}
+\index{main@{main}!user\_interface.cpp@{user\_interface.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+main function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \\
+\hline
+{\em argv} & Function for getting from the user the chosen modality above the possible 3 and receiving the feedback \\
+\hline
+\end{DoxyParams}

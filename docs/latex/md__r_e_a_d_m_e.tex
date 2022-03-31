@@ -1,0 +1,153 @@
+\DoxyHorRuler{0}
+
+
+Parisi Daniele Martino 4670964
+
+The final assignment requires to write the code for moving a robot in the environment initially unknown. Three modalities for moving the robot are required\+:
+\begin{DoxyItemize}
+\item the robot has to reach a goal chosen by the user
+\item the robot is driven by the user through the keyboard
+\item the robot is driven by the user with the assistence of a collision avoidence architecture
+\end{DoxyItemize}
+
+This is the final assignment\textquotesingle{}s environment visualized with Gazebo\+: 
+
+Initially the robot does not have a map of the environment, but it can build it through the laser scanner and thanks to the {\bfseries{gmapping}} package. The final map built by the robot is visualized in Rviz as follows\+:
+
+\hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{How to run the simulation}\label{md__r_e_a_d_m_e_autotoc_md2}
+In order to launch different nodes with only a command I implemented a launch file called {\bfseries{final.\+launch}} that is the following\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<?xml version="1.0"?>}
+\DoxyCodeLine{}
+\DoxyCodeLine{<launch>}
+\DoxyCodeLine{    <include file="\$(find final\_assignment)/launch/simulation\_gmapping.launch" />}
+\DoxyCodeLine{    <include file="\$(find final\_assignment)/launch/move\_base.launch" />}
+\DoxyCodeLine{    <node pkg="final\_assignment" type="user\_interface" name="user\_interface" output="screen" required="true" launch-\/prefix="xterm -\/e"/>}
+\DoxyCodeLine{    <node pkg="final\_assignment" type="server" name="server" output="screen" required="true" launch-\/prefix="xterm -\/e"/>}
+\DoxyCodeLine{     <node pkg="teleop\_twist\_keyboard" type="teleop\_twist\_keyboard.py" name="teleop" output="screen" launch-\/prefix="xterm -\/e" respawn="true">}
+\DoxyCodeLine{    <remap from="cmd\_vel" to="new\_cmd\_vel"/>}
+\DoxyCodeLine{   </node>}
+\DoxyCodeLine{</launch>}
+\end{DoxyCode}
+
+
+it contains 2 nested launch file\+: {\bfseries{simulation\+\_\+gmapping.\+launch}} and {\bfseries{move\+\_\+base.\+launch}} which respectively launch the simulation environment and provide some tools for moving the robot in the environment.
+
+It can be launched with the command\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\$ roslaunch final\_assignment final.launch}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysection{Project structure}\label{md__r_e_a_d_m_e_autotoc_md3}
+ As we can see from this graph, we have 9 nodes overall, even if $\ast$$\ast$/user\+\_\+interface$\ast$$\ast$ and {\bfseries{gazebo\+\_\+gui}} are not relationed with nothing. I choose to remap $\ast$$\ast$/cmd\+\_\+vel$\ast$$\ast$ topic from /cmd\+\_\+vel to $\ast$$\ast$/new\+\_\+cmd\+\_\+vel$\ast$$\ast$ according to achieve the specification regarding the 3rd modality for driving the robot avoiding the obstacles. In this way the $\ast$$\ast$/server$\ast$$\ast$ node is subscribed to the remapped topic $\ast$$\ast$/new\+\_\+cmd\+\_\+vel$\ast$$\ast$ and can check if the current velocities imposed by the user can cause collisions. In this case the values of the velocities are modified and published to the actual $\ast$$\ast$/cmd\+\_\+vel$\ast$$\ast$ according to stop the robot in difficulty situations. $\ast$$\ast$/server$\ast$$\ast$ node is linked to $\ast$$\ast$/move\+\_\+base$\ast$$\ast$ according to publish on $\ast$$\ast$/move\+\_\+base/goal$\ast$$\ast$ the goal chosen by the user in the 1st modality; for this purpose I also implemented a subscriber to the topic $\ast$$\ast$/move\+\_\+base/feedback$\ast$$\ast$ according to get the real-\/time position of the robot and check if the goal is reain this case I have a publisher to the topic $\ast$$\ast$/move\+\_\+base/$\ast$$\ast$ for cancelling the current goal once is reached. $\ast$$\ast$/server$\ast$$\ast$ is also connected to $\ast$$\ast$/gazebo$\ast$$\ast$ for receiving the laser scanner data on $\ast$$\ast$/scan$\ast$$\ast$ topic.\hypertarget{md__r_e_a_d_m_e_autotoc_md4}{}\doxysection{Pseudo-\/code}\label{md__r_e_a_d_m_e_autotoc_md4}
+The behaviour of the most important node of the assignment\+: {\bfseries{server}} can be summarize by the following pseudo-\/code\+:
+
+Whenever the user types a correct command in the user\+\_\+interface shell the service\+Callback is executed\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if command = 1}
+\DoxyCodeLine{}
+\DoxyCodeLine{    print "what target do you want to achieve?"}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    get from input keyboard the goal chosen}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    set the bool variable 'goal' to true}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    set the goal\_msg fields pos\_x and pos\_y with the chosen coordinates}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    publish goal\_msg on topic move\_base/goal}
+\DoxyCodeLine{ }
+\DoxyCodeLine{else if command = 2}
+\DoxyCodeLine{}
+\DoxyCodeLine{    set the bool variable manDrive to true}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    set collisionAvoidence variable to false}
+\DoxyCodeLine{    }
+\DoxyCodeLine{else if command = 3}
+\DoxyCodeLine{}
+\DoxyCodeLine{    set collisionAvoidence variable to true}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    set the bool variable manDrive to false}
+\end{DoxyCode}
+
+
+Whenever the user try to change the velocities from the teleop\+\_\+twist\+\_\+keyboard \textquotesingle{}get\+Vel\+Callback\textquotesingle{} is executed\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if we are in the 1st modality}
+\DoxyCodeLine{}
+\DoxyCodeLine{    the keyboard is not considered}
+\DoxyCodeLine{    }
+\DoxyCodeLine{else if we are in the 2nd modality}
+\DoxyCodeLine{}
+\DoxyCodeLine{    the keyboard is considered and the velocities are published on topic /cmd\_vel}
+\DoxyCodeLine{    }
+\DoxyCodeLine{else if we are in the 3rd modality}
+\DoxyCodeLine{}
+\DoxyCodeLine{    the message is saved in a global variable and maybe it will be corrected by the collisionAvoidenceCallback before being published}
+\end{DoxyCode}
+
+
+Whenever the position of the robot changes \textquotesingle{}current\+Position\+Callback\textquotesingle{} is executed\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{if goal is set to true}
+\DoxyCodeLine{}
+\DoxyCodeLine{    get the current position of the robot}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    calculate the distance between the goal and the robot position}
+\DoxyCodeLine{    }
+\DoxyCodeLine{    if this distance is less than or equal to a threshold}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        print "goal reached"}
+\DoxyCodeLine{        }
+\DoxyCodeLine{        cancel the goal}
+\end{DoxyCode}
+
+
+Whenever a message from laser\+Scan is received and we are in the 3rd modality \textquotesingle{}collision\+Avoidence\+Callback\textquotesingle{} is executed\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{divide the array 'ranges' returned by the LaserScan topic in 5 sector (right, front\_right, front, fron\_left, left) and fill them appropriately}
+\DoxyCodeLine{}
+\DoxyCodeLine{if min\_front\_dist is less than a threshold}
+\DoxyCodeLine{}
+\DoxyCodeLine{    if linear velocity is greater than 0 and angular velocity is equal to zero}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        stop the robot}
+\DoxyCodeLine{        }
+\DoxyCodeLine{if min\_front\_left\_dist is less than a threshold}
+\DoxyCodeLine{}
+\DoxyCodeLine{    if linear velocity is greater than 0 and angular velocity is greater than zero}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        stop the robot}
+\DoxyCodeLine{        }
+\DoxyCodeLine{if min\_front\_right\_dist is less than or equal to a threshold}
+\DoxyCodeLine{}
+\DoxyCodeLine{    if linear velocity is greater than 0 and angular velocity is less than zero}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        stop the robot}
+\DoxyCodeLine{        }
+\DoxyCodeLine{if min\_left\_dist is less than or equal to a threshold}
+\DoxyCodeLine{}
+\DoxyCodeLine{    if linear velocity is equal to 0 and angular velocity is greater than zero}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        stop the robot}
+\DoxyCodeLine{        }
+\DoxyCodeLine{if min\_right\_dist is less than or equal to a threshold}
+\DoxyCodeLine{}
+\DoxyCodeLine{    if linear velocity is equal to 0 and angular velocity is less than zero}
+\DoxyCodeLine{    }
+\DoxyCodeLine{        stop the robot}
+\DoxyCodeLine{        }
+\DoxyCodeLine{publish corrected velocity on topic /cmd\_vel}
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysection{System limitations and possible improvements}\label{md__r_e_a_d_m_e_autotoc_md5}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md6}{}\doxysubsection{Limitations\+:}\label{md__r_e_a_d_m_e_autotoc_md6}
+
+\begin{DoxyItemize}
+\item it is not considered the case in which the user chooses a goal that is not reachable, so in this case the robot will move infinitely to search the target position as long as the user either changes goal or modality
+\item in the case in which the user sends 2 or more targets one immediately after the other, the robot will try to reach the last one chosen
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{Possible improvements}\label{md__r_e_a_d_m_e_autotoc_md7}
+
+\begin{DoxyItemize}
+\item it can be checked if the goal chosen is reachable or not and in this case printing a message in the console like \textquotesingle{}the target chosen is not reachable, retype\textquotesingle{}
+\item it can be implemented a logic that stores in a queue more than one goal chosen, according to reach them sequentially 
+\end{DoxyItemize}

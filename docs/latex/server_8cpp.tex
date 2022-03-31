@@ -1,0 +1,221 @@
+\hypertarget{server_8cpp}{}\doxysection{src/server.cpp File Reference}
+\label{server_8cpp}\index{src/server.cpp@{src/server.cpp}}
+
+
+server for the execution of the three modalities  
+
+
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Laser\+Scan.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}geometry\+\_\+msgs/\+Twist.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}final\+\_\+assignment/\+User.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}std\+\_\+srvs/\+Empty.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}move\+\_\+base\+\_\+msgs/\+Move\+Base\+Action\+Goal.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}actionlib\+\_\+msgs/\+Goal\+I\+D.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}move\+\_\+base\+\_\+msgs/\+Move\+Base\+Action\+Feedback.\+h\char`\"{}}\newline
+Include dependency graph for server.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{server_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{server_8cpp_a89af502f8ca39b50fa3cbaf42cff4db4}\label{server_8cpp_a89af502f8ca39b50fa3cbaf42cff4db4}} 
+\#define \mbox{\hyperlink{server_8cpp_a89af502f8ca39b50fa3cbaf42cff4db4}{D\+TH}}~1
+\begin{DoxyCompactList}\small\item\em Macro-\/definition for the threshold distance. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_ad3b6355f7d65a4b276c5bfc9ab35d709}\label{server_8cpp_ad3b6355f7d65a4b276c5bfc9ab35d709}} 
+\#define \mbox{\hyperlink{server_8cpp_ad3b6355f7d65a4b276c5bfc9ab35d709}{G\+O\+A\+L\+\_\+\+TH}}~0.\+5
+\begin{DoxyCompactList}\small\item\em Macro-\/definition for the goal threshold. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{server_8cpp_a951b87d8cfc4da25e89b3492508bfe24}{cancel\+Goal}} ()
+\begin{DoxyCompactList}\small\item\em function to cancell a goal if it is reached \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{server_8cpp_ab1422f0d741942044a0f4fde5993d85e}{current\+Position\+Callback}} (const move\+\_\+base\+\_\+msgs\+::\+Move\+Base\+Action\+Feedback\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em function to compute the distance from the goal \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{server_8cpp_a7b72b8027af553a6888634292a511716}{get\+Vel\+Callback}} (const geometry\+\_\+msgs\+::\+Twist\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em function to do different things according to the chosen modality \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{server_8cpp_a22ca43833590a06590952a071fcc1eb6}{compute\+Min\+Dist}} (double scan\mbox{[}$\,$\mbox{]}, int size)
+\begin{DoxyCompactList}\small\item\em function to compute the minimum element of an array \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{server_8cpp_ab9068346b72f904d03e88dcdc1f977f9}{collision\+Avoidence\+Callback}} (const sensor\+\_\+msgs\+::\+Laser\+Scan\+::\+Const\+Ptr \&msg)
+\begin{DoxyCompactList}\small\item\em function to check the obstacles\textquotesingle{} distances and in case of possible collisions it corrects the trajectory \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{server_8cpp_aa4bb3cef07a8e8ef8ff6c201cde8d105}{service\+Callback}} (final\+\_\+assignment\+::\+User\+::\+Request \&req, final\+\_\+assignment\+::\+User\+::\+Response \&res)
+\begin{DoxyCompactList}\small\item\em Function to direct the code to the modality chosen. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{server_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em main function \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{server_8cpp_ae057aae7fbba2a4cef62321020305295}\label{server_8cpp_ae057aae7fbba2a4cef62321020305295}} 
+ros\+::\+Publisher \mbox{\hyperlink{server_8cpp_ae057aae7fbba2a4cef62321020305295}{pub\+\_\+goal}}
+\begin{DoxyCompactList}\small\item\em Global publisher for the goal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_ac0664a23d360105ec3d579965d5b7631}\label{server_8cpp_ac0664a23d360105ec3d579965d5b7631}} 
+ros\+::\+Publisher \mbox{\hyperlink{server_8cpp_ac0664a23d360105ec3d579965d5b7631}{pub\+\_\+vel}}
+\begin{DoxyCompactList}\small\item\em Global publisher for the velocity. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a33cbe548b1e0f6b08bbe754f53af458c}\label{server_8cpp_a33cbe548b1e0f6b08bbe754f53af458c}} 
+ros\+::\+Publisher \mbox{\hyperlink{server_8cpp_a33cbe548b1e0f6b08bbe754f53af458c}{pub\+\_\+cancel}}
+\begin{DoxyCompactList}\small\item\em Global publisher for cancelling the goal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a6a210eba25678ef8991de789c0aaf16d}\label{server_8cpp_a6a210eba25678ef8991de789c0aaf16d}} 
+bool \mbox{\hyperlink{server_8cpp_a6a210eba25678ef8991de789c0aaf16d}{man\+Drive}} = false
+\begin{DoxyCompactList}\small\item\em Global bool variable for enabling 2nd modality. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a396c6848bf9f59e8a7a0892b9beb53cc}\label{server_8cpp_a396c6848bf9f59e8a7a0892b9beb53cc}} 
+bool \mbox{\hyperlink{server_8cpp_a396c6848bf9f59e8a7a0892b9beb53cc}{collision\+Avoidence}} = false
+\begin{DoxyCompactList}\small\item\em Global bool variable for enabling 3rd modality. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a1292e042df88fd7461a4dc998912f6d1}\label{server_8cpp_a1292e042df88fd7461a4dc998912f6d1}} 
+bool \mbox{\hyperlink{server_8cpp_a1292e042df88fd7461a4dc998912f6d1}{goal}} = false
+\begin{DoxyCompactList}\small\item\em Global bool variable to store the status of the goal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a365207e7fb07cd4db79d049a1ded2244}\label{server_8cpp_a365207e7fb07cd4db79d049a1ded2244}} 
+float \mbox{\hyperlink{server_8cpp_a365207e7fb07cd4db79d049a1ded2244}{target\+\_\+x}}
+\begin{DoxyCompactList}\small\item\em global variable for storing the x coordinate of goal chosen by the user \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a65965c691346cf996ec91c2cd057ae31}\label{server_8cpp_a65965c691346cf996ec91c2cd057ae31}} 
+float \mbox{\hyperlink{server_8cpp_a65965c691346cf996ec91c2cd057ae31}{target\+\_\+y}}
+\begin{DoxyCompactList}\small\item\em global variable for storing the y coordinate of goal chosen by the user \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_afd0d68c6d31ff249f3ae8662162663c3}\label{server_8cpp_afd0d68c6d31ff249f3ae8662162663c3}} 
+std\+::string \mbox{\hyperlink{server_8cpp_afd0d68c6d31ff249f3ae8662162663c3}{id}} = \char`\"{}\char`\"{}
+\begin{DoxyCompactList}\small\item\em Global variable for the id of the goal. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_a58b913289dd9ed4f654dfbd74c11b790}\label{server_8cpp_a58b913289dd9ed4f654dfbd74c11b790}} 
+geometry\+\_\+msgs\+::\+Twist \mbox{\hyperlink{server_8cpp_a58b913289dd9ed4f654dfbd74c11b790}{my\+\_\+vel}}
+\begin{DoxyCompactList}\small\item\em Velocity to be checked by the collision avoidence before being published. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{server_8cpp_abc2407a897aa2b5d1d9d65f6728027dd}\label{server_8cpp_abc2407a897aa2b5d1d9d65f6728027dd}} 
+actionlib\+\_\+msgs\+::\+Goal\+ID \mbox{\hyperlink{server_8cpp_abc2407a897aa2b5d1d9d65f6728027dd}{canc\+\_\+goal}}
+\begin{DoxyCompactList}\small\item\em message for cancelling a goal when it is reached \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+server for the execution of the three modalities 
+
+\begin{DoxyAuthor}{Author}
+Parisi Daniele Martino 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+27/02/2022
+\end{DoxyDate}
+Subscribes to\+:~\newline
+ /new\+\_\+cmd\+\_\+vel it contains the current velocity of the robot /scan it contains the current distances from the obstacles /move\+\_\+base/feedback it contains the current position of the robot
+
+Publishes to\+:~\newline
+ /move\+\_\+base/goal /cmd\+\_\+vel /move\+\_\+base/cancel
+
+services\+:~\newline
+ /user
+
+Description\+:
+
+The code implements the logic to execute one among 3 different modality chosen by the user for driving the robot among a virtual environment 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{server_8cpp_a951b87d8cfc4da25e89b3492508bfe24}\label{server_8cpp_a951b87d8cfc4da25e89b3492508bfe24}} 
+\index{server.cpp@{server.cpp}!cancelGoal@{cancelGoal}}
+\index{cancelGoal@{cancelGoal}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{cancelGoal()}{cancelGoal()}}
+{\footnotesize\ttfamily bool cancel\+Goal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+function to cancell a goal if it is reached 
+
+\begin{DoxyReturn}{Returns}
+true if the goal is cancelled, otherwise false
+\end{DoxyReturn}
+The function uses the status of the global variable \textquotesingle{}goal\textquotesingle{} for cancelling the goal \mbox{\Hypertarget{server_8cpp_ab9068346b72f904d03e88dcdc1f977f9}\label{server_8cpp_ab9068346b72f904d03e88dcdc1f977f9}} 
+\index{server.cpp@{server.cpp}!collisionAvoidenceCallback@{collisionAvoidenceCallback}}
+\index{collisionAvoidenceCallback@{collisionAvoidenceCallback}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{collisionAvoidenceCallback()}{collisionAvoidenceCallback()}}
+{\footnotesize\ttfamily void collision\+Avoidence\+Callback (\begin{DoxyParamCaption}\item[{const sensor\+\_\+msgs\+::\+Laser\+Scan\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+function to check the obstacles\textquotesingle{} distances and in case of possible collisions it corrects the trajectory 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & laser scanner\textquotesingle{}s ranges\\
+\hline
+\end{DoxyParams}
+This function is capable of getting the laser scanner\textquotesingle{}s data, dividing them into different parts, that correspond to the distances from left, front-\/left, front, front right and right. According to the distances, if we can have possible collisions the velocities are modified. \mbox{\Hypertarget{server_8cpp_a22ca43833590a06590952a071fcc1eb6}\label{server_8cpp_a22ca43833590a06590952a071fcc1eb6}} 
+\index{server.cpp@{server.cpp}!computeMinDist@{computeMinDist}}
+\index{computeMinDist@{computeMinDist}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{computeMinDist()}{computeMinDist()}}
+{\footnotesize\ttfamily double compute\+Min\+Dist (\begin{DoxyParamCaption}\item[{double}]{scan\mbox{[}$\,$\mbox{]},  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+function to compute the minimum element of an array 
+
+
+\begin{DoxyParams}{Parameters}
+{\em scan\mbox{[}$\,$\mbox{]}} & the array \\
+\hline
+{\em size} & the dimension of the array\\
+\hline
+\end{DoxyParams}
+Function for computing the min element of a given array and its size \mbox{\Hypertarget{server_8cpp_ab1422f0d741942044a0f4fde5993d85e}\label{server_8cpp_ab1422f0d741942044a0f4fde5993d85e}} 
+\index{server.cpp@{server.cpp}!currentPositionCallback@{currentPositionCallback}}
+\index{currentPositionCallback@{currentPositionCallback}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{currentPositionCallback()}{currentPositionCallback()}}
+{\footnotesize\ttfamily void current\+Position\+Callback (\begin{DoxyParamCaption}\item[{const move\+\_\+base\+\_\+msgs\+::\+Move\+Base\+Action\+Feedback\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+function to compute the distance from the goal 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & robot\textquotesingle{}s coordinates and goal\textquotesingle{}s status\\
+\hline
+\end{DoxyParams}
+The function calculate the distance of the robot from the goal and if the distance is less than or equal to a threshold the current coal is cancelled \mbox{\Hypertarget{server_8cpp_a7b72b8027af553a6888634292a511716}\label{server_8cpp_a7b72b8027af553a6888634292a511716}} 
+\index{server.cpp@{server.cpp}!getVelCallback@{getVelCallback}}
+\index{getVelCallback@{getVelCallback}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{getVelCallback()}{getVelCallback()}}
+{\footnotesize\ttfamily void get\+Vel\+Callback (\begin{DoxyParamCaption}\item[{const geometry\+\_\+msgs\+::\+Twist\+::\+Const\+Ptr \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+function to do different things according to the chosen modality 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & linear and angular velocities of the robot\\
+\hline
+\end{DoxyParams}
+Callback function called whenever the teleop twist keyboard want to change the robot velocity If the robot isn\textquotesingle{}t neither in manual driving nor in collision avoidence modality the message is ignored If the robot is in manual driving modality the message is sent to the cmd\+\_\+vel topic If the robot is in collision avoidence modality the message is saved in a global variable (my\+\_\+vel) and it will be corrected by the collision avoidence function before being published \mbox{\Hypertarget{server_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{server_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{server.cpp@{server.cpp}!main@{main}}
+\index{main@{main}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+main function 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & \\
+\hline
+{\em argv} & Function for publishing, subscribing to some topics or to define the service for implement the chosen modality \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{server_8cpp_aa4bb3cef07a8e8ef8ff6c201cde8d105}\label{server_8cpp_aa4bb3cef07a8e8ef8ff6c201cde8d105}} 
+\index{server.cpp@{server.cpp}!serviceCallback@{serviceCallback}}
+\index{serviceCallback@{serviceCallback}!server.cpp@{server.cpp}}
+\doxysubsubsection{\texorpdfstring{serviceCallback()}{serviceCallback()}}
+{\footnotesize\ttfamily bool service\+Callback (\begin{DoxyParamCaption}\item[{final\+\_\+assignment\+::\+User\+::\+Request \&}]{req,  }\item[{final\+\_\+assignment\+::\+User\+::\+Response \&}]{res }\end{DoxyParamCaption})}
+
+
+
+Function to direct the code to the modality chosen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & \\
+\hline
+{\em res} & This function is capable of direct the code through the modality chosen by the user. I do this with a list of \textquotesingle{}if\textquotesingle{} statements and in each body of the \textquotesingle{}if\textquotesingle{} I set the value of the boolean global variables according to the chosen modality \\
+\hline
+\end{DoxyParams}
