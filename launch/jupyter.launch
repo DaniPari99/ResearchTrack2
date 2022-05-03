@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+    <include file="$(find final_assignment)/launch/simulation_gmapping.launch" />
+    <include file="$(find final_assignment)/launch/move_base.launch" />
+    <remap from="cmd_vel" to="new_cmd_vel"/>
+</launch>
