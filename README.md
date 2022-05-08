@@ -39,6 +39,13 @@ It can be launched with the command:
 ```bash
 $ roslaunch final_assignment final.launch
 ```
+### Note:
+According to run the simulation with Jupyter I write a launch file called **jupyter.launch** which can be launched with the command:
+
+```bash
+$ roslaunch final_assignment jupyter.launch
+```
+
 ## Project structure
 ![gr](https://user-images.githubusercontent.com/62515616/152952323-427302ad-438c-4cdf-b08c-16b1f12a519a.png)
 As we can see from this graph, we have 9 nodes overall, even if **/user_interface** and **gazebo_gui** are not relationed with nothing.
